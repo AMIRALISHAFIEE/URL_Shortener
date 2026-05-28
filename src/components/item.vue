@@ -64,7 +64,7 @@ const shareLink = async (item) => {
             alert('خطایی رخ داد: ', err)
         }
     } else {
-        copyToClipboard()
+        copyToClipboard(shareData.text)
         alert('قابلیت اشتراک‌گذاری مستقیم در این مرورگر پشتیبانی نمی‌شود. لینک در حافظه کپی شد!')
     }
 }

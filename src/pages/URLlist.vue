@@ -8,7 +8,7 @@
             </div>
             <template v-else>
                 <div dir="ltr" v-for="item in filteredHistory" :key="item.id"
-                    class="w-full rounded-xl bg-gray-300 flex items-center justify-between shadow py-2 px-4 min-h-[80px]">
+                    class="w-full rounded-xl bg-gray-300 flex items-center justify-between shadow py-2 px-4">
                     <item v-if="!item.isDeleting" :item="item" @deleteItem="deleteLink" />
                     <div v-else
                         class="flex w-full items-center justify-between text-xs text-gray-700 font-medium font-sans">
@@ -52,8 +52,7 @@ onMounted(() => {
 const filteredHistory = computed(() => {
     if (!search.value) {
         return history.value
-    }
-    // استفاده از ?.toLowerCase() برای جلوگیری از ارور در صورت تهی بودن فیلدها
+    } 
     return history.value.filter(item =>
         item.original?.toLowerCase().includes(search.value.toLowerCase()) ||
         item.short?.toLowerCase().includes(search.value.toLowerCase())
