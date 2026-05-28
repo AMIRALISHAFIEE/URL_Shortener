@@ -5,7 +5,7 @@
         <div v-if="errorsList.length">
             <p v-for="err in errorsList" :key="err" class="text-red-500 font-bold text-xs">{{ err }}</p>
         </div>
-        <select-box v-model="expire" :list="list" label="تاریخ انقضا را وارد کنید." /> 
+        <select-box v-model="expire" :list="list" label="تاریخ انقضا را وارد کنید." />
         <button type="button" @click="submitURL" v-if="url && isFormat"
             class="w-full mt-4 py-3 rounded-xl text-white bg-blue-500 transition flex items-center justify-center gap-2">
             ساخت لینک کوتاه
@@ -74,6 +74,17 @@ watch(url, (val) => {
 watch(history, (newVal) => {
     localStorage.setItem('url-history', JSON.stringify(newVal))
 }, { deep: true })
+const generateUniqueShortCode = () => {
+    let code = ''
+    let exists = true
+    while (exists) {
+        code = Math.random().toString(36).slice(2, 8)
+        exists = history.value.some(item => {
+            return item.short.endsWith('/' + code)
+        })
+    }
+    return code
+}
 const submitURL = async () => {
     isLoad.value = true
     const baseUrl = window.location.origin
@@ -88,7 +99,7 @@ const submitURL = async () => {
             expiresAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toString()
         }
         isLoad.value = false
-        const generated = baseUrl + '/' + Math.random().toString(36).slice(2, 8)
+        const generated = baseUrl + '/' + generateUniqueShortCode()
         shortUrl.value = generated
         history.value.push({
             id: Math.random() * 100000,
